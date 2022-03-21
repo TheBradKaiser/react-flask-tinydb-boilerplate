@@ -1,5 +1,5 @@
 from flask import Flask, request, Response
-from database import db, usertable, uniqueInsert
+from database import usertable, uniqueInsert, votetable, countVotes
 import tinydb as tdb
 
 
@@ -32,7 +32,22 @@ def form():
     response = uniqueInsert(usertable,request.form)
     return response
 
+#POLL VOTE
+@api.route('/voteForm', methods=['POST'])
+def voteForm():
+    votetable.insert(request.form)
+    return "vote cast successfully"
+#POLL RESULTS
 
+@api.route('/voteGet')
+def voteGet():
+    votes = countVotes(votetable)
+    
+    response_body = votes
+
+    return response_body
+
+#
 #either or
 @api.route('/logins', methods=['GET', 'POST'])
 def logins():

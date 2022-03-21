@@ -1,14 +1,39 @@
 
 #TINYDB!
 from tinydb import TinyDB, Query, where
-
+# import counter
 
 db = TinyDB('.\database\db.json')
 
 # #create table
 usertable=db.table("usertable")
-# usertable.insert({"key":"value", "key2":4})
+votetable = db.table('votes')
 
+# no duplicate insert
+def uniqueInsert(db,data):
+    query = Query()
+    if db.search(query.fragment(data)) == []:
+        id = db.insert(data)
+        return "no duplicates found, inserted record successfully, heres your id " +str(id)
+    else:
+        return "value already exists"
+
+
+def countVotes(votetable):
+    allVotes=votetable.all()
+    counterList=[]
+    counterDict={}
+    for vote in allVotes:
+        f = vote.values()
+        counterList.append(*f)
+        # if vote.values() not in counter:
+    for a in counterList:
+        if a not in counterDict:
+            counterDict[a]=0
+        counterDict[a]+=1
+    return counterDict
+    
+# countVotes(votetable)
 # #clear table
 # db.drop_table("usertable")
 
@@ -25,14 +50,7 @@ usertable=db.table("usertable")
 # #insert
 # db.insert({"key":"value", "key2":4})
 
-# no duplicate insert
-def uniqueInsert(db,data):
-    query = Query()
-    if db.search(query.fragment(data)) == []:
-        id = db.insert(data)
-        return "no duplicates found, inserted record successfully, heres your id " +str(id)
-    else:
-        return "value already exists"
+
 
 
 #nested insert
