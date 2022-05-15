@@ -27,6 +27,48 @@ function App() {
     }
   };
 
+
+const [createPoll, setCreatePoll] = useState("")
+function CreatePollTitle(e) {
+  e.preventDefault();
+  var pollName = new FormData();
+  pollName.append("table", pollName);
+  axios({
+    method: "POST",
+    url: "/createPoll",
+    data: pollName,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+    .then(function (response) {
+      //handle success
+      
+      console.log(response);
+    })
+    .catch(function (response) {
+      //handle error
+      console.log(response);
+    });
+}
+
+  const handlePollSubmit = (e) => {
+    //prevents submitting default text
+    e.preventDefault();
+    //if username and password not ''
+    if (username && password) {
+      //console log the user object because i wanna know NOW
+      const user = { username, password };
+      console.log(user);
+      //reset back to default values
+      setUserName("");
+      setPassword("");
+    } else {
+      //return error if neither filled out in console
+      console.log("empty values");
+    }
+  };
+
+
+
   //POLL VOTING SCRIPT//
   const [vote, setVote] = useState("");
   const [results, setResults] = useState("");
@@ -136,6 +178,27 @@ function App() {
   //RETURN STATEMENT
   return (
     <div className="App">
+      <form>
+        <div>
+          <label>
+            <h2>Create a Poll: </h2><input type="text"
+              id="createPoll"
+              name="createPoll"
+              value={createPoll}
+              onChange={(e) => setCreatePoll(e.target.value)}></input><button type="submit" onClick={CreatePollTitle}>
+              Create Poll
+            </button>
+          </label>
+          {CreatePoll && <p>{CreatePoll}</p>}
+        </div>
+      </form>
+
+
+
+
+
+
+
       <form onSubmit={handleSubmitPoll}>
         <div>
           <h1>VOTE HERE!</h1>

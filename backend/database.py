@@ -8,7 +8,8 @@ db = TinyDB('.\database\db.json')
 # #create table
 usertable=db.table("usertable")
 votetable = db.table('votes')
-
+table2 = db.table('table2')
+table2.insert({"a":"a"})
 # no duplicate insert
 def uniqueInsert(db,data):
     query = Query()
@@ -20,19 +21,21 @@ def uniqueInsert(db,data):
 
 
 def countVotes(votetable):
+    #refactor this junk
     allVotes=votetable.all()
     counterList=[]
     counterDict={}
     for vote in allVotes:
         f = vote.values()
+        #deconstructor to remove the dict_items(item) from the item
         counterList.append(*f)
-        # if vote.values() not in counter:
     for a in counterList:
         if a not in counterDict:
             counterDict[a]=0
         counterDict[a]+=1
     return counterDict
     
+
 # countVotes(votetable)
 # #clear table
 # db.drop_table("usertable")
